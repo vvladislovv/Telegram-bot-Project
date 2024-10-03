@@ -2,30 +2,37 @@ import asyncio
 import logging
 import os
 import sys
-#import config
+from typing import Any
+
+from SiteWork import login
 from dotenv import load_dotenv
 
-from aiogram import Bot, Dispatcher, html
+from aiogram import Bot, Dispatcher, html, types
 from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
 from aiogram.filters import CommandStart
-from aiogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
-from aiogram.utils import  keyboard
+from aiogram.types import Message
+from aiogram.utils import keyboard
 
 load_dotenv()
 Token = os.getenv('TOKEN')
 
 dp = Dispatcher()
 
-
-@dp.message(CommandStart())
+@dp.message(CommandStart())     # /start
 async def command_start_handler(message: Message) -> None:
     keyword = keyboard.InlineKeyboardBuilder()
-    keyword.button(text="Start Train", url="https://www.rail-nation.com/")
-    keyword.button(text="Stop Train", url="https://www.rail-nation.com/")
-    keyword.adjust(2)
+    keyword.button(text="Start Train", callback_data="Start Train")
+    keyword.adjust(1)
 
-    await message.answer(f"Привет, {html.bold(message.from_user.full_name)}. Выбери одну из кнопок:", reply_markup=keyword.as_markup())
+    await message.answer(f"Привет, {html.bold(message.from_user.full_name)}. Нажми на кнопку", reply_markup=keyword.as_markup())
+
+
+@dp.callback_query()    # Start Train CallBack
+def callback_query(call: types.CallbackQuery) -> Any:
+    print(call.data)
+    if call.data == "Start Train":
+        login.loginSite()
 
 
 async def main() -> None:
