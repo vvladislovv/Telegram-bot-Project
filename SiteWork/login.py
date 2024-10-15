@@ -2,9 +2,9 @@ import pyautogui
 import time
 import webbrowser
 import config
+from SiteWork import routeNew
 
-
-def loginSite():
+def StartGame():
     webbrowser.open('https://www.rail-nation.com')
     time.sleep(3)
     pyautogui.click(x=100, y=200)
@@ -15,5 +15,5 @@ def loginSite():
     pyautogui.typewrite(config.PASSWORD)  # Password
     pyautogui.press('enter')
 
-    time.sleep(5)
-
+    time.sleep(10)
+    routeNew.ClickGame()

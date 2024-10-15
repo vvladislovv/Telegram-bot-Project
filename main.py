@@ -30,9 +30,9 @@ async def command_start_handler(message: Message) -> None:
 
 @dp.callback_query()    # Start Train CallBack
 def callback_query(call: types.CallbackQuery) -> Any:
-    print(call.data)
+    #print(call.data)
     if call.data == "Start Train":
-        login.loginSite()
+        login.StartGame()
 
 
 async def main() -> None:
